@@ -58,6 +58,7 @@ var ViewModel = function() {
 	var self = this;
 
 	this.isYelpVisible = ko.observable(false);
+	this.isFilterMenuVisible = ko.observable(true);
 
 	this.Locations = ko.observableArray([]);
 
@@ -78,6 +79,7 @@ var ViewModel = function() {
 			}
 		};
     }, this);
+
     this.clickMapMarker = function(clickedLocation) {
     	var current_marker = markers[clickedLocation.markerIndex()];
     	fillInfoWindowAndToggleMarker(current_marker);
@@ -85,7 +87,21 @@ var ViewModel = function() {
     	console.log(self.isYelpVisible);
     	self.isYelpVisible(true);
     	toggleBounce(markers[clickedLocation.markerIndex()]);
-    }
+    };
+
+    this.openSideMenu = function() {
+    	self.isFilterMenuVisible(false);
+    	document.getElementById("top-menu").style.height = "100%";
+	};
+
+	this.closeSideMenu = function() {
+    	document.getElementById("top-menu").style.height = "0";
+    	setTimeout(self.showFilterMenu, 600);
+	};
+
+	this.showFilterMenu = function() {
+		self.isFilterMenuVisible(true);
+	};
 }
 
 ko.applyBindings(new ViewModel());
@@ -186,17 +202,6 @@ function loadNYTimesArticle(location) {
 	}
 }
 
-function openNav() {
-    document.getElementById("side-menu").style.height = "100%";
-    //document.getElementById("map").style.height = "100%";
-    //document.getElementById("map").style.top = "0%";
-}
-
-function closeNav() {
-    document.getElementById("side-menu").style.height = "0";
-    //document.getElementById("map").style.height = "92%";
-    //document.getElementById("map").style.top = "8%";
-}
 
 
 
