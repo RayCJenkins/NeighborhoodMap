@@ -22,17 +22,14 @@
     			<li data-bind='visible: isVisible, text: title, click: $parent.clickMapMarker'></li>
     		</ul>
     	</div>
-	    <div class="nytimes-container">
-	    	<h3 id="nytimes-header">New York Times Articles</h3>
-	    	<ul id="nytimes-articles" class="article-list"></ul>
-		</div>
-	    <div class='Yelp-review' data-bind='visible: isYelpVisible'>
-			<h2>Yelp Reviews</h2>
-	    	<p>Yelp Articles go here</p>
-	    </div>
+      <div class="wikipedia-container">
+          <h3 id="wikipedia-header">Click Above for Relevant Wikipedia Links</h3>
+          <ul id="wikipedia-links"></ul>
+      </div>
 	</div>
 	<div id="map"></div>
     <script async src="js/script.js"></script>
+    <script async src="js/libs/jquery.min.js"></script>
     <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCoVhIHT_lQ87X2rNNefXTCfgTSz9D92nQ&v=3&callback=initMap"></script>
     <script src="js/libs/knockout-3.4.0.js"></script>
 
