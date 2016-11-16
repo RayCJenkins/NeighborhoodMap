@@ -57,7 +57,6 @@ var Location = function(data, index) {
 var ViewModel = function() {
 	var self = this;
 
-	this.isYelpVisible = ko.observable(false);
 	this.isFilterMenuVisible = ko.observable(true);
 
 	this.Locations = ko.observableArray([]);
@@ -65,7 +64,9 @@ var ViewModel = function() {
 	interestingLocations.forEach(function(locationItem, index) {
 		self.Locations.push(new Location(locationItem, index));
 	});
+
 	this.availableCategories = ko.observableArray(LocationCategories)
+
 	this.currentFilter = ko.observable('All');
 	this.currentFilter.subscribe(function(newValue) {
 		closeInfoWindowAndClearBounce(infoWindow);
@@ -83,8 +84,6 @@ var ViewModel = function() {
     this.clickMapMarker = function(clickedLocation) {
     	var current_marker = markers[clickedLocation.markerIndex()];
     	fillInfoWindowAndToggleMarker(current_marker);
-    	// loadWikipediaLinks(current_marker.title);
-    	toggleBounce(markers[clickedLocation.markerIndex()]);
     };
 
     this.openSideMenu = function() {
@@ -149,25 +148,25 @@ function toggleBounce(marker) {
 }
 
 
-function fillInfoWindow(marker, infowindow) {
-    loadMarkerWithWikipediaLinks(marker, infowindow);
+function fillInfoWindow(marker, info_window) {
+    loadMarkerWithWikipediaLinks(marker, info_window);
 }
 
-function closeInfoWindowAndClearBounce(infowindow) {
-	if (infowindow){
-		infowindow.close();
-		if (infowindow.marker){
-			infowindow.marker.setAnimation(null);
-			infowindow.marker = null;
+function closeInfoWindowAndClearBounce(info_window) {
+	if (info_window){
+		info_window.close();
+		if (info_window.marker){
+			info_window.marker.setAnimation(null);
+			info_window.marker = null;
 		}
 	}
 	selectedMarker = null;
 }
 
-function loadMarkerWithWikipediaLinks(marker, infowindow) {
-	if (infowindow.marker != marker) {
-		var $wikiElem = $('#wikipedia-links');
-		var wikipediaSearchURL = 'http://en.wikipedia.org/w/api.php?action=opensearch&search=' + marker.title + '&format=json&callback=wiliCallback';
+function loadMarkerWithWikipediaLinks(marker, info_window) {
+	if (info_window.marker != marker) {
+		var $wikiElem = $('#wikipedia-header');
+		var wikipediaSearchURL = 'https://en.wikipedia.org/w/api.php?action=opensearch&search=' + marker.title + '&format=json&callback=wiliCallback';
 
 	    var wikiRequestTimeout = setTimeout(function(){
 	    	$wikiElem.text("Request for Wikipedia Information failed!");
@@ -195,11 +194,11 @@ function loadMarkerWithWikipediaLinks(marker, infowindow) {
 						'<p>Wikipedia page not found</p>';
 		    	}
  	   			clearTimeout(wikiRequestTimeout);
-				infowindow.marker = marker;
-				infowindow.setContent(markerContent);
-				infowindow.open(map, marker);
-				infowindow.addListener('closeclick', function() {
-					infowindow.marker = null;
+				info_window.marker = marker;
+				info_window.setContent(markerContent);
+				info_window.open(map, marker);
+				info_window.addListener('closeclick', function() {
+					info_window.marker = null;
 				});
 			    toggleBounce(marker);
 
